@@ -24,3 +24,6 @@ def index():
     cursor.execute('SELECT * FROM employeeInfo')
     result = cursor.fetchall()
     return render_template('index.html', title='Home', user=user, employeeDetail=result)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=True)
