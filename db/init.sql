@@ -1,6 +1,7 @@
 CREATE DATABASE employeeData;
 use employeeData;
 
+
 CREATE TABLE IF NOT EXISTS employeeInfo (
     `id` int AUTO_INCREMENT,
     `Name` VARCHAR(25) CHARACTER SET utf8,

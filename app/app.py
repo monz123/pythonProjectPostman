@@ -17,13 +17,16 @@ app.config['MYSQL_DATABASE_DB'] = 'employeeData'
 mysql.init_app(app)
 
 
-@app.route('/', methods=['GET'])
-def index():
-    user = {'username': 'BME'}
+
+
+@app.route('/api/v1/employees', methods=['GET'])
+def api_browse()-> str:
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM employeeInfo')
     result = cursor.fetchall()
-    return render_template('index.html', title='Home', user=user, employeeDetail=result)
+    json_result = json.dumps(result);
+    resp = Response(json_result, status=200, mimetype='application/json')
+    return resp
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
