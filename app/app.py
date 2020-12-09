@@ -37,5 +37,20 @@ def api_retrieve(emp_id) -> str:
     resp = Response(json_result, status=200, mimetype='application/json')
     return resp
 
+@app.route('/api/v1/employees', methods=['POST'])
+def api_add() -> str:
+
+    content = request.json
+
+    cursor = mysql.get_db().cursor()
+    inputData = (content['Name'], content['Sex'], content['Age'],
+                 content['Height_in'], content['Weight_lbs'])
+    sql_insert_query = """INSERT INTO employeeInfo (Name, Sex, Age, Height_in, Weight_lbs) VALUES (%s, %s,%s, %s,%s) """
+    cursor.execute(sql_insert_query, inputData)
+    mysql.get_db().commit()
+    resp = Response(status=201, mimetype='application/json')
+    return resp
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
