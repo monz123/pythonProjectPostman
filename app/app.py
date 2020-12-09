@@ -51,6 +51,18 @@ def api_add() -> str:
     resp = Response(status=201, mimetype='application/json')
     return resp
 
+@app.route('/api/v1/employees/<int:emp_id>', methods=['PUT'])
+def api_edit(emp_id) -> str:
+    cursor = mysql.get_db().cursor()
+    content = request.json
+    inputData = (content['Name'], content['Sex'], content['Age'],
+                 content['Height_in'], content['Weight_lbs'],emp_id)
+    sql_update_query = """UPDATE employeeInfo e SET e.Name = %s, e.Sex = %s,e.Age = %s, e.Height_in = %s, e.Weight_lbs = 
+    %s WHERE e.id = %s"""
+    cursor.execute(sql_update_query, inputData)
+    mysql.get_db().commit()
+    resp = Response(status=201, mimetype='application/json')
+    return resp
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
